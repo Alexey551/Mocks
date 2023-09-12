@@ -1,23 +1,43 @@
 package HW.Mocks.Controller;
 import HW.Mocks.Exception.ResponseException;
 import HW.Mocks.Profile.User;
+import HW.Mocks.workingClass.DataBaseWorking;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.time.LocalDate;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.sql.SQLException;
+
 
 @RestController
 public class MessageController {
-    @GetMapping("/login")
-    public ResponseEntity<User> getQuery() {
-        return ResponseEntity.ok(new User("user_1", "11111", "user_1@mail.ru"));
+    @GetMapping("/selectUser/{login}")
+    public ResponseEntity<User> getUser(@PathVariable String login) throws Exception {
+        User user;
+        try {
+            DataBaseWorking dataBaseWorking = new DataBaseWorking();
+            user = dataBaseWorking.select_user(login);
+
+            if (user == null) {
+                throw new ResponseException("DB problems");
+            }
+            return ResponseEntity.ok(user);
+        } catch (SQLException | ResponseException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<User> postQuery(@RequestBody User user) throws ResponseException {
-        String date = LocalDate.now().toString();
-        if (user.getPassword() != "" && user.getLogin() != "") {
-            return ResponseEntity.ok(new User(user.getLogin(), user.getPassword(), date));
+    @PostMapping("/insertUser")
+    public ResponseEntity<String> postUser(@RequestBody User user) throws Exception {
+        try {
+            DataBaseWorking dataBaseWorking = new DataBaseWorking();
+            String result = dataBaseWorking.insert_user(user);
+
+            return ResponseEntity.ok(result);
+        } catch (ResponseException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
-        throw new ResponseException();
     }
 }
+

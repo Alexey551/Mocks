@@ -4,4 +4,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 public class ResponseException extends RuntimeException{
+    public ResponseException(String dbProblems) {
     }
+}
