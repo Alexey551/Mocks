@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class MessageController {
     @GetMapping("/login")
     public ResponseEntity<User> getQuery() {
-        return ResponseEntity.ok(new User("11111", "qqqqqq"));
+        return ResponseEntity.ok(new User("user_1", "11111", "user_1@mail.ru"));
     }
 
     @PostMapping("/login")
@@ -21,4 +21,3 @@ public class MessageController {
         throw new ResponseException();
     }
 }
-
