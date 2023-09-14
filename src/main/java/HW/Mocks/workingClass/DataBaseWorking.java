@@ -4,10 +4,6 @@ import HW.Mocks.Profile.User;
 
 import java.sql.*;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 public class DataBaseWorking {
     private static final String url = "jdbc:postgresql://localhost:54321/db1";
     private static final String dataBaseUser = "postgres";
@@ -15,11 +11,6 @@ public class DataBaseWorking {
     private static final String table1 = "public.users";
     private static final String table2 = "public.email";
 
-
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
     public User select_user(String login) throws Exception {
         User user = null;
         String query = "SELECT * FROM " + table1 + " JOIN " + table2 + " USING (login) WHERE login = '" + login + "'";
@@ -44,10 +35,6 @@ public class DataBaseWorking {
         return null;
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
     public String insert_user(User user) {
         String query = " INSERT INTO " + table1 + "( login, password, date ) values ( ?, ?, ? ); \n" + " INSERT INTO " + table2 + "( login, email ) values ( ?, ? );";
         try (Connection con = DriverManager.getConnection(url, dataBaseUser, dataBasePassword);
